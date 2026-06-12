@@ -425,11 +425,6 @@ The estimate does not include possible regional surcharges, cached-input discoun
 
 ---
 
-
-
-
----
-
 ## Official references
 
 - OpenAI model documentation: https://developers.openai.com/api/docs/models
