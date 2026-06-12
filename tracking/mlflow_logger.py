@@ -3,14 +3,24 @@ from __future__ import annotations
 import json
 import tempfile
 from pathlib import Path
+from importlib.metadata import PackageNotFoundError, version
 
 from core.config import MLFLOW_EXPERIMENT_NAME, MLFLOW_TRACKING_URI
 from core.schemas import ComparisonReport, MlflowManifest, MlflowRunRecord
 
+MLFLOW_IMPORT_ERROR = ""
+MLFLOW_INSTALLED_VERSION = "unknown"
+
+try:
+    MLFLOW_INSTALLED_VERSION = version("mlflow")
+except PackageNotFoundError:
+    MLFLOW_INSTALLED_VERSION = "not installed"
+
 try:
     import mlflow
-except Exception:  # pragma: no cover
+except Exception as exc:
     mlflow = None
+    MLFLOW_IMPORT_ERROR = f"{type(exc).__name__}: {exc}"
 
 
 def log_benchmark_report(report: ComparisonReport, enabled: bool = True) -> MlflowManifest:
